@@ -1,25 +1,22 @@
 package ma.gest_dentaire;
 
-import ma.gest_dentaire.model.entity.Personne;
-import ma.gest_dentaire.repository.PersonneRepo;
-import ma.gest_dentaire.service.PersonneService;
-import org.springframework.beans.factory.annotation.Autowired;
+import ma.gest_dentaire.model.entity.Patient;
+import ma.gest_dentaire.repository.PatientRepo;
+import ma.gest_dentaire.service.PatientService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.Optional;
 
 @SpringBootApplication
 public class GestDentaireApplication implements CommandLineRunner {
 
-    private final PersonneRepo personneRepo;
-    private final PersonneService personneService;
 
-    public GestDentaireApplication(PersonneRepo personneRepo, PersonneService personneService) {
-        this.personneRepo = personneRepo;
-        this.personneService = personneService;
+    private final PatientRepo patientRepo;
+    private final PatientService patientService;
+
+    public GestDentaireApplication(PatientRepo patientRepo, PatientService patientService) {
+        this.patientRepo = patientRepo;
+        this.patientService = patientService;
     }
 
     public static void main(String[] args) {
@@ -28,17 +25,12 @@ public class GestDentaireApplication implements CommandLineRunner {
         SpringApplication.run(GestDentaireApplication.class, args);
     }
 
-
     @Override
     public void run(String... args) throws Exception {
-
-
-        Iterable<Personne> personnes = personneRepo.findAll();
-
+        Iterable<Patient> patients = patientRepo.findAll();
         // Afficher les personnes récupérées
-        for (Personne personne : personnes) {
-            System.out.println(personne);
+        for (Patient patient : patients) {
+            System.out.println(patient);
         }
-
     }
 }

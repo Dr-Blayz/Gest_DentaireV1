@@ -2,17 +2,39 @@ package ma.gest_dentaire.model.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ma.gest_dentaire.model.enumclass.GroupeSanguin;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "Patient")
-public class Patient extends Personne {
+public class Patient {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_Patient")
+    private Integer id_Patient;
+
+    @Column(name = "cin_Patient")
+    private String Cin_Patient;
+
+    @Column(name = "nom_Patient")
+    private String nom_Patient;
+
+    @Column(name = "prenom_Patient")
+    private String prenom_Patient;
+
+    @Column(name = "email_Patient")
+    private String email_Patient;
+
+    @Column(name = "tel_Patient")
+    private int tel_Patient;
+
+    @Column(name = "adresse_Patient")
+    private String adresse_Patient;
 
     @Column(name = "date_naissance")
     private String dateNaissance;
@@ -33,13 +55,23 @@ public class Patient extends Personne {
     @Column(name = "profession")
     private String profession;
 
-    public Patient(Integer id_Personne, String Cin_Personne, String nom_Personne, String prenom_Personne, String email_Personne, int tel_Personne, String adresse_Personne, String dateNaissance, String mutuelle, GroupeSanguin groupeSanguin, String antecedentMedicale, String dossierMedicale, String profession) {
-        super(id_Personne, Cin_Personne, nom_Personne, prenom_Personne, email_Personne, tel_Personne, adresse_Personne);
+    public Patient(String profession, String dossierMedicale, String antecedentMedicale, GroupeSanguin groupeSanguin, String mutuelle, String dateNaissance, String adresse_Patient, int tel_Patient, String email_Patient, String prenom_Patient, String nom_Patient, String Cin_Patient) {
+        this.Cin_Patient = Cin_Patient;
+        this.prenom_Patient = prenom_Patient;
+        this.nom_Patient = nom_Patient;
+        this.adresse_Patient = adresse_Patient;
+        this.tel_Patient = tel_Patient;
+        this.email_Patient = email_Patient;
         this.dateNaissance = dateNaissance;
-        this.mutuelle = mutuelle;
-        this.groupeSanguin = groupeSanguin;
-        this.antecedentMedicale = antecedentMedicale;
-        this.dossierMedicale = dossierMedicale;
         this.profession = profession;
+        this.dossierMedicale = dossierMedicale;
+        this.antecedentMedicale = antecedentMedicale;
+        this.groupeSanguin = groupeSanguin;
+        this.mutuelle = mutuelle;
+
+
+
     }
+
+
 }

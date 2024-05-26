@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Liste des Patients</title>
+</head>
+<body>
+
+
+<h1>Liste des Patients</h1>
+
+
+<div class="flex flex-col">
+    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+            <div class="overflow-hidden">
+                <table
+                        class="min-w-full text-left text-sm font-light text-surface dark:text-black">
+                    <thead
+                            class="border-b border-neutral-100 font-medium dark:border-black/10">
+                    <tr>
+
+                        <th scope="col" class="px-6 py-4">ID</th>
+                        <th scope="col" class="px-6 py-4">CIN</th>
+                        <th scope="col" class="px-6 py-4">Nom</th>
+                        <th scope="col" class="px-6 py-4">Prénom</th>
+                        <th scope="col" class="px-6 py-4">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="patient : ${patients}" class="border-b border-neutral-200 dark:border-Black/10" >
+                        <td class="whitespace-nowrap px-6 py-4"th:text="${patient.id_Patient}"></td>
+                        <td class="whitespace-nowrap px-6 py-4"th:text="${patient.cin_Patient}"></td>
+                        <td class="whitespace-nowrap px-6 py-4"th:text="${patient.nom_Patient}"></td>
+                        <td class="whitespace-nowrap px-6 py-4"th:text="${patient.prenom_Patient}"></td>
+                        <td class="whitespace-nowrap px-6 py-4"><button type="button"
+                                                                        class="inline-block rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-dark-3 transition duration-150 ease-in-out hover:bg-neutral-700 hover:shadow-dark-2 focus:bg-neutral-700 focus:shadow-dark-2 focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-dark-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">
+                            Infos</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>CIN</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Email</th>
+        <th>Téléphone</th>
+        <th>Adresse</th>
+        <th>Date de Naissance</th>
+        <th>Mutuelle</th>
+        <th>Groupe Sanguin</th>
+        <th>Antécédent Médical</th>
+        <th>Dossier Médical</th>
+        <th>Profession</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="patient : ${patients}">
+        <td th:text="${patient.id_Patient}"></td>
+        <td th:text="${patient.cin_Patient}"></td>
+        <td th:text="${patient.nom_Patient}"></td>
+        <td th:text="${patient.prenom_Patient}"></td>
+        <td th:text="${patient.email_Patient}"></td>
+        <td th:text="${patient.tel_Patient}"></td>
+        <td th:text="${patient.adresse_Patient}"></td>
+        <td th:text="${patient.dateNaissance}"></td>
+        <td th:text="${patient.mutuelle}"></td>
+        <td th:text="${patient.groupeSanguin}"></td>
+        <td th:text="${patient.antecedentMedicale}"></td>
+        <td th:text="${patient.dossierMedicale}"></td>
+        <td th:text="${patient.profession}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
