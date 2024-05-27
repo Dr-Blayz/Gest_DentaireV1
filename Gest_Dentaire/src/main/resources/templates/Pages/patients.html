@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Liste des Patients</title>
+</head>
+<body>
+
+
+<div class="flex">
+    <div th:insert="Composant/sidebare :: aside"></div>
+    <!-- Inclure le sidebare -->
+
+
+    <!-- Contenu principal -->
+    <div class="flex-1 p-2">
+        <header th:insert="Composant/header.html :: header"></header>
+        <div class="flex items-center justify-between">
+            <h1 class="text-black-900 font-black text-3xl py-6 px-4">Liste des Patients</h1>
+            <button class="px-4 py-2 mr-6 bg-[#68d391] text-white font-semibold rounded hover:bg-[#056829]">Ajouter patient</button>
+        </div>
+        <div class="flex flex-col">
+            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                    <div class="overflow-hidden">
+                        <table class="min-w-full text-left text-sm font-light text-surface dark:text-black">
+                            <thead class="border-b border-neutral-200 font-medium dark:border-black/10">
+                            <tr>
+
+                                <th scope="col" class="px-6 py-4">ID</th>
+                                <th scope="col" class="px-6 py-4">CIN</th>
+                                <th scope="col" class="px-6 py-4">Nom</th>
+                                <th scope="col" class="px-6 py-4">Prénom</th>
+                                <th scope="col" class="px-6 py-4">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="patient : ${patients}" class="border-b border-neutral-200 dark:border-Black/10" >
+                                <td class="whitespace-nowrap px-6 py-4"th:text="${patient.id_Patient}"></td>
+                                <td class="whitespace-nowrap px-6 py-4"th:text="${patient.cin_Patient}"></td>
+                                <td class="whitespace-nowrap px-6 py-4"th:text="${patient.nom_Patient}"></td>
+                                <td class="whitespace-nowrap px-6 py-4"th:text="${patient.prenom_Patient}"></td>
+                                <td class="whitespace-nowrap px-1 py-4"><a th:href="@{'/patient/' + ${patient.id_Patient}}"
+                                      class="inline-block rounded bg-[#68d391] px-6 pb-2 pt-2.5 text-xs font-medium
+                                      uppercase leading-normal text-neutral-50 shadow-dark-3 transition duration-150
+                                      ease-in-out hover:bg-[#056829] hover:shadow-dark-2 focus:bg-neutral-700 focus:shadow-dark-2
+                                      focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-dark-2 motion-reduce:transition-none
+                                      dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">
+                                    Infos</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
