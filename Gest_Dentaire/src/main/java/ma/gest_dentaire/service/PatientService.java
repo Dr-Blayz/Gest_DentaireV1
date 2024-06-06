@@ -1,24 +1,22 @@
 package ma.gest_dentaire.service;
 
-
+import jakarta.transaction.Transactional;
 import ma.gest_dentaire.model.entity.Patient;
 import ma.gest_dentaire.repository.PatientRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PatientService {
 
-    @Autowired
-    private PatientRepo patientRepo;
-    @Autowired
+    private final PatientRepo patientRepo;
+
     public PatientService(PatientRepo patientRepo) {
         this.patientRepo = patientRepo;
     }
 
+    @Transactional
     public Patient addPatient(Patient patient) {
         return patientRepo.save(patient);
     }
@@ -27,8 +25,12 @@ public class PatientService {
         return patientRepo.findAll();
     }
 
-        public Patient getPatientById(Integer id) {
-            return patientRepo.findById(id).orElse(null);
-        }
+    public Patient getPatientById(Integer id) {
+        return patientRepo.findById(id).orElse(null);
+    }
 
+    @Transactional
+    public void updatePatient(Patient patient) {
+        patientRepo.save(patient);
+    }
 }

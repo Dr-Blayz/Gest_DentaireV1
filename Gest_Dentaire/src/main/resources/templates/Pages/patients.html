@@ -17,7 +17,7 @@
         <header th:insert="Composant/header.html :: header"></header>
         <div class="flex items-center justify-between">
             <h1 class="text-black-900 font-black text-3xl py-6 px-4">Liste des Patients</h1>
-            <button class="px-4 py-2 mr-6 bg-[#68d391] text-white font-semibold rounded hover:bg-[#056829]">Ajouter patient</button>
+            <a th:href="@{/patients/add}"><button  class="px-4 py-2 mr-6 bg-[#68d391] text-white font-semibold rounded hover:bg-[#056829]">Ajouter patient</button></a>
         </div>
         <div class="flex flex-col">
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -27,20 +27,20 @@
                             <thead class="border-b border-neutral-200 font-medium dark:border-black/10">
                             <tr>
 
-                                <th scope="col" class="px-6 py-4">ID</th>
                                 <th scope="col" class="px-6 py-4">CIN</th>
                                 <th scope="col" class="px-6 py-4">Nom</th>
                                 <th scope="col" class="px-6 py-4">Prénom</th>
-                                <th scope="col" class="px-6 py-4">Action</th>
+                                <th scope="col" class="px-6 py-4">adresse</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="patient : ${patients}" class="border-b border-neutral-200 dark:border-Black/10" >
-                                <td class="whitespace-nowrap px-6 py-4"th:text="${patient.id_Patient}"></td>
-                                <td class="whitespace-nowrap px-6 py-4"th:text="${patient.cin_Patient}"></td>
-                                <td class="whitespace-nowrap px-6 py-4"th:text="${patient.nom_Patient}"></td>
-                                <td class="whitespace-nowrap px-6 py-4"th:text="${patient.prenom_Patient}"></td>
-                                <td class="whitespace-nowrap px-1 py-4"><a th:href="@{'/patient/' + ${patient.id_Patient}}"
+                                <td class="whitespace-nowrap px-6 py-4" th:text="${patient.cin_Patient}"></td>
+                                <td class="whitespace-nowrap px-6 py-4" th:text="${patient.nom_Patient}"></td>
+                                <td class="whitespace-nowrap px-6 py-4" th:text="${patient.prenom_Patient}"></td>
+                                <td class="whitespace-nowrap px-6 py-4" th:text="${patient.adresse_Patient}"></td>
+
+                                <td class="whitespace-nowrap px-1 py-4"><a th:href="@{'/patients/' + ${patient.id_Patient}}"
                                       class="inline-block rounded bg-[#68d391] px-6 pb-2 pt-2.5 text-xs font-medium
                                       uppercase leading-normal text-neutral-50 shadow-dark-3 transition duration-150
                                       ease-in-out hover:bg-[#056829] hover:shadow-dark-2 focus:bg-neutral-700 focus:shadow-dark-2
@@ -56,6 +56,9 @@
         </div>
     </div>
 </div>
+
+
+
 
 </body>
 </html>

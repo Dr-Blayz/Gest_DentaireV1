@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <title>Modifier Dossier Médical</title>
+</head>
+<body>
+<div class="flex ">
+    <div th:insert="Composant/sidebare :: aside"></div>
+    <div class="flex-1 p-2">
+        <header th:insert="Composant/header.html :: header"></header>
+        <div class="flex w-full">
+    <div class="modifier-patient w-1/2 p-6 ">
+        <h2 class="text-lg font-semibold">Modifier Informations du Patient</h2>
+        <form th:action="@{'/patients/' + ${patient.id_Patient} + '/update'}" method="post" class="mt-4">
+            <!-- Champs pour modifier les informations du patient -->
+            <div class="mb-4">
+                <label for="CinPatient" class="block text-sm font-medium text-gray-900">CIN:</label>
+                <input type="text" id="CinPatient" name="Cin_Patient" th:value="${patient.Cin_Patient}" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+
+            <div class="mb-4">
+                <label for="nomPatient" class="block text-sm font-medium text-gray-900">Nom:</label>
+                <input type="text" id="nomPatient" name="nom_Patient" th:value="${patient.nom_Patient}" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+
+            <div class="mb-4">
+                <label for="prenomPatient" class="block text-sm font-medium text-gray-900">Prénom:</label>
+                <input type="text" id="prenomPatient" name="prenom_Patient" th:value="${patient.prenom_Patient}" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+
+            <div class="mb-4">
+                <label for="emailPatient" class="block text-sm font-medium text-gray-900">Email:</label>
+                <input type="email" id="emailPatient" name="email_Patient" th:value="${patient.email_Patient}" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+
+            <div class="mb-4">
+                <label for="telPatient" class="block text-sm font-medium text-gray-900">Téléphone:</label>
+                <input type="number" id="telPatient" name="tel_Patient" th:value="${patient.tel_Patient}" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+
+            <div class="mb-4">
+                <label for="adressePatient" class="block text-sm font-medium text-gray-900">Adresse:</label>
+                <input type="text" id="adressePatient" name="adresse_Patient" th:value="${patient.adresse_Patient}" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+
+            <div class="mb-4">
+                <label for="dateNaissance" class="block text-sm font-medium text-gray-900">Date de Naissance:</label>
+                <input type="date" id="dateNaissance" name="dateNaissance" th:value="${patient.dateNaissance}" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+
+            <div class="mb-4">
+                <label for="mutuelle" class="block text-sm font-medium text-gray-900">Mutuelle:</label>
+                <input type="text" id="mutuelle" name="mutuelle" th:value="${patient.mutuelle}" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+
+            <div class="mb-4">
+                <label for="groupeSanguin" class="block text-sm font-medium text-gray-900">Groupe Sanguin:</label>
+                <input type="text" id="groupeSanguin" name="groupeSanguin" th:value="${patient.groupeSanguin}" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+
+            <div class="mb-4">
+                <label for="antecedentMedicale" class="block text-sm font-medium text-gray-900">Antécédents Médicaux:</label>
+                <textarea id="antecedentMedicale" name="antecedentMedicale" th:text="${patient.antecedentMedicale}" required
+                          class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg"></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label for="profession" class="block text-sm font-medium text-gray-900">Profession:</label>
+                <input type="text" id="profession" name="profession" th:value="${patient.profession}" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+
+            <div class="mt-6">
+                <button type="submit" class="px-4 py-2 mr-6 bg-[#68d391] text-white font-semibold rounded hover:bg-[#056829]">
+                        Modifier Informations Patient
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="dossier-info w-1/3 p-6">
+        <div class="modifier-formulaire w-1/2 p-6 w-full">
+            <h2 class="text-lg font-semibold">Modifier Dossier Médical</h2>
+            <form th:action="@{'/patients/'+${patient.id_Patient}+'/dossier/update'}" method="post" class="mt-4">
+                <input type="hidden" name="id" th:value="${patient.id_Patient}">
+
+                <div class="mb-4">
+                    <label for="situationFinanciere" class="block text-sm font-medium text-gray-900">Situation Financière:</label>
+                    <input type="text" id="situationFinanciere" name="situationFinanciere" th:value="${patient.dossierMedicale.situationFinanciere}"
+                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+                </div>
+
+                <div class="mb-4">
+                    <label for="date" class="block text-sm font-medium text-gray-900">Date de Modification:</label>
+                    <input type="date" id="date" name="date" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"
+                           class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+                </div>
+
+                <div class="mt-6">
+                    <button type="submit"
+                            class="px-4 py-2 mr-6 bg-[#68d391] text-white font-semibold rounded hover:bg-[#056829]">
+                        Modifier
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        </div>
+</div>
+</div>
+</body>
+
+</html>

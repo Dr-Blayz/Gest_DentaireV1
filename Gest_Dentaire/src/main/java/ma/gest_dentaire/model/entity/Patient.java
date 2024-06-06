@@ -1,20 +1,22 @@
 package ma.gest_dentaire.model.entity;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import ma.gest_dentaire.model.enumclass.GroupeSanguin;
+import ma.gest_dentaire.model.enumclass.Mutuelle;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "Patient")
 public class Patient {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_Patient")
     private Integer id_Patient;
 
@@ -31,47 +33,48 @@ public class Patient {
     private String email_Patient;
 
     @Column(name = "tel_Patient")
-    private int tel_Patient;
+    private String tel_Patient;
 
     @Column(name = "adresse_Patient")
     private String adresse_Patient;
 
     @Column(name = "date_naissance")
-    private String dateNaissance;
+    private LocalDate dateNaissance;
 
-    @Column(name = "mutuelle")
-    private String mutuelle;
-
-    @Column(name = "group_sanguin")
     @Enumerated(EnumType.STRING)
+    @Column(name = "mutuelle")
+    private Mutuelle mutuelle;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "group_sanguin")
     private GroupeSanguin groupeSanguin;
 
     @Column(name = "antecedent_medicale")
     private String antecedentMedicale;
 
-    @Column(name = "dossier_medicale")
-    private String dossierMedicale;
-
     @Column(name = "profession")
     private String profession;
 
-    public Patient(String profession, String dossierMedicale, String antecedentMedicale, GroupeSanguin groupeSanguin, String mutuelle, String dateNaissance, String adresse_Patient, int tel_Patient, String email_Patient, String prenom_Patient, String nom_Patient, String Cin_Patient) {
-        this.Cin_Patient = Cin_Patient;
-        this.prenom_Patient = prenom_Patient;
-        this.nom_Patient = nom_Patient;
-        this.adresse_Patient = adresse_Patient;
-        this.tel_Patient = tel_Patient;
-        this.email_Patient = email_Patient;
-        this.dateNaissance = dateNaissance;
-        this.profession = profession;
-        this.dossierMedicale = dossierMedicale;
-        this.antecedentMedicale = antecedentMedicale;
-        this.groupeSanguin = groupeSanguin;
-        this.mutuelle = mutuelle;
+    @JsonIgnore
+    @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private DossierMedical dossierMedicale;
 
 
-
+    @Override
+    public String toString() {
+        return "Patient{" +
+                "profession='" + profession + '\'' +
+                ", antecedentMedicale='" + antecedentMedicale + '\'' +
+                ", groupeSanguin=" + groupeSanguin +
+                ", mutuelle=" + mutuelle +
+                ", dateNaissance=" + dateNaissance +
+                ", adresse_Patient='" + adresse_Patient + '\'' +
+                ", tel_Patient='" + tel_Patient + '\'' +
+                ", email_Patient='" + email_Patient + '\'' +
+                ", prenom_Patient='" + prenom_Patient + '\'' +
+                ", nom_Patient='" + nom_Patient + '\'' +
+                ", Cin_Patient='" + Cin_Patient + '\'' +
+                ", id_Patient=" + id_Patient +
+                '}';
     }
-
-
 }

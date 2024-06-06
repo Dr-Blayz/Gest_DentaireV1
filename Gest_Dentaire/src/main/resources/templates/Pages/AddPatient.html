@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Patient Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div class="flex">
+    <div th:insert="Composant/sidebare :: aside"></div>
+    <div class="flex-1 p-2">
+        <header th:insert="Composant/header.html :: header"></header>
+        <h1>Add Patient</h1>
+
+        <form action="/patients/add" method="post" class="m-5 grid grid-cols-2 gap-x-8 gap-y-4">
+            <!-- Champs pour les informations du patient -->
+            <div>
+                <label for="CinPatient" class="block text-sm font-medium leading-6 text-gray-900">CIN:</label>
+                <input type="text" id="CinPatient" name="Cin_Patient" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+            <div>
+                <label for="nomPatient" class="block text-sm font-medium leading-6 text-gray-900">Nom:</label>
+                <input type="text" id="nomPatient" name="nom_Patient" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+            <div>
+                <label for="prenomPatient" class="block text-sm font-medium leading-6 text-gray-900">Prénom:</label>
+                <input type="text" id="prenomPatient" name="prenom_Patient" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+            <div>
+                <label for="emailPatient" class="block text-sm font-medium leading-6 text-gray-900">Email:</label>
+                <input type="email" id="emailPatient" name="email_Patient" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+            <div>
+                <label for="telPatient" class="block text-sm font-medium leading-6 text-gray-900">Téléphone:</label>
+                <input type="tel" id="telPatient" name="tel_Patient" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+            <div>
+                <label for="adressePatient" class="block text-sm font-medium leading-6 text-gray-900">Adresse:</label>
+                <input type="text" id="adressePatient" name="adresse_Patient" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+            <div>
+                <label for="dateNaissance" class="block text-sm font-medium leading-6 text-gray-900">Date de Naissance:</label>
+                <input type="date" id="dateNaissance" name="dateNaissance" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+            <div>
+                <label for="mutuelle" class="block text-sm font-medium leading-6 text-gray-900">Mutuelle:</label>
+                <input type="text" id="mutuelle" name="mutuelle" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="groupeSanguin" class="block text-sm font-medium leading-6 text-gray-900">Groupe Sanguin:</label>
+                <select id="groupeSanguin" name="groupeSanguin" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-lg">
+                    <option value="">--Sélectionnez--</option>
+                    <option th:each="groupeSanguin : ${T(ma.gest_dentaire.model.enumclass.GroupeSanguin).values()}"
+                            th:value="${groupeSanguin.name()}" th:text="${groupeSanguin.name()}">
+                    </option>
+                </select>
+            </div>
+            <div class="col-span-2">
+                <label for="antecedentMedicale" class="block text-sm font-medium leading-6 text-gray-900">Antécédents Médicaux:</label>
+                <textarea id="antecedentMedicale" name="antecedentMedicale" required
+                          class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg"></textarea>
+            </div>
+            <div>
+                <label for="profession" class="block text-sm font-medium leading-6 text-gray-900">Profession:</label>
+                <input type="text" id="profession" name="profession" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+            <div class="col-span-2">
+                <button type="submit"
+                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Ajouter
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
