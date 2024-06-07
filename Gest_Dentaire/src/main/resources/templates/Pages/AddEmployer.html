@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Employer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div class="flex">
+    <div th:insert="Composant/sidebare :: aside"></div>
+    <div class="flex-1 p-2">
+        <header th:insert="Composant/header.html :: header"></header>
+        <h1>Add Employer</h1>
+
+        <form action="/employers/add" method="post" class="m-5 grid grid-cols-2 gap-x-8 gap-y-4">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+            <div>
+                <label for="CinEmployer" class="block text-sm font-medium leading-6 text-gray-900">CIN:</label>
+                <input type="text" id="CinEmployer" name="Cin_Employer" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+            <div>
+                <label for="nomEmployer" class="block text-sm font-medium leading-6 text-gray-900">Nom:</label>
+                <input type="text" id="nomEmployer" name="nom_Employer" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+            <div>
+                <label for="prenomEmployer" class="block text-sm font-medium leading-6 text-gray-900">Prénom:</label>
+                <input type="text" id="prenomEmployer" name="prenom_Employer" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+            <div>
+                <label for="emailEmployer" class="block text-sm font-medium leading-6 text-gray-900">Email:</label>
+                <input type="email" id="emailEmployer" name="email_Employer" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+            <div>
+                <label for="telEmployer" class="block text-sm font-medium leading-6 text-gray-900">Téléphone:</label>
+                <input type="tel" id="telEmployer" name="tel_Employer" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+            <div>
+                <label for="adresseEmployer" class="block text-sm font-medium leading-6 text-gray-900">Adresse:</label>
+                <input type="text" id="adresseEmployer" name="adresse_Employer" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+            <div>
+                <label for="dateNaissance" class="block text-sm font-medium leading-6 text-gray-900">Date de Naissance:</label>
+                <input type="date" id="dateNaissance" name="dateNaissance" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+            <div>
+                <label for="SalairteBase" class="block text-sm font-medium leading-6 text-gray-900">Salaire de Base:</label>
+                <input type="number" id="SalairteBase" name="SalairteBase" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+            <div>
+                <label for="prime" class="block text-sm font-medium leading-6 text-gray-900">Prime:</label>
+                <input type="number" id="prime" name="prime" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+            <div>
+                <label for="joursConge" class="block text-sm font-medium leading-6 text-gray-900">Jours de Congé:</label>
+                <input type="number" id="joursConge" name="jours_Conge" required
+                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+            </div>
+            <div>
+                <label for="assurance" class="block text-sm font-medium leading-6 text-gray-900">Assurance:</label>
+                <select id="assurance" name="assurance" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-lg">
+                    <option value="">--Sélectionnez--</option>
+                    <option th:each="Assurance : ${assuranceValues}"
+                            th:value="${Assurance.name()}" th:text="${Assurance.name()}">
+                    </option>
+                </select>
+            </div>
+            <div>
+                <label for="statuts" class="block text-sm font-medium leading-6 text-gray-900">Statuts:</label>
+                <select id="statuts" name="statuts" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-lg">
+                    <option value="">--Sélectionnez--</option>
+                    <option th:each="Statuts : ${statutsValues}"
+                            th:value="${Statuts.name()}" th:text="${Statuts.name()}">
+                    </option>
+                </select>
+            </div>
+            <div>
+                <label for="fonction" class="block text-sm font-medium leading-6 text-gray-900">Fonction:</label>
+                <select id="fonction" name="fonction" required class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-lg">
+                    <option value="">--Sélectionnez--</option>
+                    <option th:each="Fonction : ${fonctionValues}"
+                            th:value="${Fonction.name()}" th:text="${Fonction.name()}">
+                    </option>
+                </select>
+            </div>
+            <div class="col-span-2">
+                <button type="submit"
+                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Ajouter
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

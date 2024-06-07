@@ -59,7 +59,6 @@ public class Patient {
     @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private DossierMedical dossierMedicale;
 
-
     @Override
     public String toString() {
         return "Patient{" +

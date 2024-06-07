@@ -1,8 +1,13 @@
-package ma.gest_dentaire.Controller;
+package ma.gest_dentaire.controller;
 
+import ma.gest_dentaire.model.entity.Consultation;
 import ma.gest_dentaire.model.entity.DossierMedical;
 import ma.gest_dentaire.model.entity.Patient;
+import ma.gest_dentaire.model.enumclass.Acte;
 import ma.gest_dentaire.model.enumclass.GroupeSanguin;
+import ma.gest_dentaire.model.enumclass.Mutuelle;
+import ma.gest_dentaire.service.ConsultationService;
+import ma.gest_dentaire.service.DossierMedicalService;
 import ma.gest_dentaire.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -18,25 +24,34 @@ import java.util.List;
 public class PatientController {
 
     private final PatientService patientService;
+    private final ConsultationService consultationService;
+    private final DossierMedicalService dossierMedicalService;
 
     @Autowired
-    public PatientController(PatientService patientService) {
+    public PatientController(PatientService patientService, DossierMedicalService dossierMedicalService, ConsultationService consultationService) {
         this.patientService = patientService;
+        this.consultationService = consultationService;
+        this.dossierMedicalService = dossierMedicalService;
     }
 
     @GetMapping
     public String listPatients(Model model) {
         List<Patient> patients = patientService.getAllPatients();
+        patients.sort(Comparator.comparing(Patient::getId_Patient).reversed());
         model.addAttribute("patients", patients);
-        return "Pages/patients"; // Nom du fichier Thymeleaf sans extension
+        return "Pages/patients";
     }
 
     @GetMapping("/{id}")
     public String getPatientDetailsPage(@PathVariable Integer id, Model model) {
         Patient patient = patientService.getPatientById(id);
         if (patient != null) {
+            DossierMedical dossierMedical = dossierMedicalService.getDossierById(id);
+            List<Consultation> consultations = consultationService.getConsultationsByDossierId(dossierMedical.getIdDossier());
             model.addAttribute("patient", patient);
-            return "Pages/detailPatient"; // Assurez-vous que le nom correspond au nom de votre fichier HTML
+            model.addAttribute("dossierMedical", dossierMedical);
+            model.addAttribute("consultations", consultations);
+            return "Pages/detailPatient";
         } else {
             model.addAttribute("errorMessage", "Patient introuvable !");
             return "redirect:/patients";
@@ -46,16 +61,16 @@ public class PatientController {
     @GetMapping("/add")
     public String showAddPatientForm(Model model) {
         model.addAttribute("patient", new Patient());
-        return "Pages/AddPatient"; // Assurez-vous que le nom correspond au nom de votre fichier HTML
+        return "Pages/AddPatient";
     }
 
     @PostMapping("/add")
     public String addPatient(@ModelAttribute Patient patient, Model model) {
-        DossierMedical dossierMedical = new DossierMedical(LocalDate.now(), patient, "Situation financière non renseignée");
+        DossierMedical dossierMedical = new DossierMedical(LocalDate.now(), patient, "Situation financière non renseignée", null);
         patient.setDossierMedicale(dossierMedical);
         patientService.addPatient(patient);
         model.addAttribute("successMessage", "Patient ajouté avec succès !");
-        return "redirect:/patients"; // Rediriger vers la liste des patients après ajout
+        return "redirect:/patients";
     }
 
     @GetMapping("/{id}/dossier")
@@ -63,7 +78,7 @@ public class PatientController {
         Patient patient = patientService.getPatientById(id);
         if (patient != null) {
             model.addAttribute("patient", patient);
-            return "Pages/ModifierDossier"; // Nom du fichier Thymeleaf sans extension
+            return "Pages/ModifierDossier";
         } else {
             model.addAttribute("errorMessage", "Patient introuvable !");
             return "redirect:/patients";
@@ -75,18 +90,14 @@ public class PatientController {
                                        @RequestParam("situationFinanciere") String situationFinanciere, Model model) {
         Patient existingPatient = patientService.getPatientById(id);
         if (existingPatient != null) {
-            // Vérifiez si le dossier médical du patient est null
             if (existingPatient.getDossierMedicale() == null) {
-                // Si c'est le cas, initialisez-le avec un nouveau dossier médical
                 existingPatient.setDossierMedicale(new DossierMedical());
             }
-            // Mettez à jour les informations du dossier médical
             existingPatient.getDossierMedicale().setSituationFinanciere(situationFinanciere);
-            // Utilisez la date fournie dans la requête
             existingPatient.getDossierMedicale().setDateCreation(date);
             patientService.updatePatient(existingPatient);
             model.addAttribute("successMessage", "Dossier médical mis à jour avec succès !");
-            return "redirect:/patients/"+ id;
+            return "redirect:/patients/" + id;
         } else {
             model.addAttribute("errorMessage", "Patient introuvable !");
             return "redirect:/patients";
@@ -97,7 +108,6 @@ public class PatientController {
     public String updatePatient(@PathVariable Integer id, @ModelAttribute Patient updatedPatient, Model model) {
         Patient existingPatient = patientService.getPatientById(id);
         if (existingPatient != null) {
-            // Mettez à jour les informations du patient avec celles du formulaire
             existingPatient.setCin_Patient(updatedPatient.getCin_Patient());
             existingPatient.setNom_Patient(updatedPatient.getNom_Patient());
             existingPatient.setPrenom_Patient(updatedPatient.getPrenom_Patient());
@@ -110,7 +120,6 @@ public class PatientController {
             existingPatient.setAntecedentMedicale(updatedPatient.getAntecedentMedicale());
             existingPatient.setProfession(updatedPatient.getProfession());
 
-            // Enregistrez les modifications
             patientService.updatePatient(existingPatient);
             model.addAttribute("successMessage", "Informations du patient mises à jour avec succès !");
             return "redirect:/patients/" + id;
@@ -120,9 +129,95 @@ public class PatientController {
         }
     }
 
-    @ModelAttribute("enumValues")
-    public GroupeSanguin[] getEnumValues() {
-        return GroupeSanguin.values(); // Return all enum values as an array
+    @GetMapping("/{id}/delete")
+    public String deletePatient(@PathVariable Integer id, Model model) {
+        Patient patient = patientService.getPatientById(id);
+        if (patient == null) {
+            model.addAttribute("errorMessage", "Patient introuvable !");
+            return "redirect:/patients";
+        }
+        // Supprimer les consultations associées au dossier médical du patient
+        DossierMedical dossierMedical = patient.getDossierMedicale();
+        List<Consultation> consultations = dossierMedical.getConsultations();
+        for (Consultation consultation : consultations) {
+            consultationService.supprimerConsultation(consultation);
+        }
+        // Supprimer le dossier médical du patient
+        dossierMedicalService.supprimerDossierMedical(dossierMedical.getIdDossier());
+        // Supprimer le patient
+        patientService.deletePatient(id);
+        model.addAttribute("successMessage", "Patient supprimé avec succès !");
+        return "redirect:/patients";
     }
 
+
+    @GetMapping("/{id}/consultation/add")
+    public String showAddConsultationForm(@PathVariable("id") Integer dossierId, Model model) {
+        DossierMedical dossierMedical = dossierMedicalService.getDossierById(dossierId);
+        if (dossierMedical == null) {
+            model.addAttribute("errorMessage", "Dossier médical introuvable !");
+            return "redirect:/patients";
+        }
+        model.addAttribute("consultation", new Consultation());
+        model.addAttribute("dossierId", dossierId);
+        model.addAttribute("acteValues", Acte.values());
+        return "Pages/AddConsultation";
+    }
+
+    @PostMapping("/{id}/consultation/add")
+    public String addConsultation(@PathVariable("id") Integer dossierId,
+                                  @RequestParam("dateConsultation") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateConsultation,
+                                  @RequestParam("acte") Acte acte,
+                                  @RequestParam("prix") Double prix,
+                                  @RequestParam("description") String description,
+                                  Model model) {
+        DossierMedical dossierMedical = dossierMedicalService.getDossierById(dossierId);
+        if (dossierMedical == null) {
+            model.addAttribute("errorMessage", "Dossier médical introuvable !");
+            return "redirect:/patients";
+        }
+        Consultation consultation = new Consultation();
+        consultation.setDateConsultation(dateConsultation);
+        consultation.setActe(acte);
+        consultation.setPrix(prix);
+        consultation.setDescription(description);
+        consultation.setDossierMedical(dossierMedical);
+        consultationService.addConsultationToDossier(consultation);
+        model.addAttribute("successMessage", "Consultation ajoutée avec succès !");
+        return "redirect:/patients/" + dossierMedical.getPatient().getId_Patient();
+    }
+
+
+    @GetMapping("/{id}/consultation/{consultationId}/delete") // Changer en GetMapping
+    public String supprimerConsultation(@PathVariable("id") Integer dossierId, @PathVariable("consultationId") Integer consultationId, Model model) {
+        DossierMedical dossierMedical = dossierMedicalService.getDossierById(dossierId);
+        if (dossierMedical == null) {
+            model.addAttribute("errorMessage", "Patient introuvable !");
+            return "redirect:/patients/" + dossierMedical.getPatient().getId_Patient();
+
+        }
+
+        Consultation consultation = consultationService.getConsultationById(consultationId);
+        if (consultation == null) {
+            model.addAttribute("errorMessage", "Consultation introuvable !");
+            return "redirect:/patients/" + dossierMedical.getPatient().getId_Patient();
+        }
+
+        // Supprimer la consultation du dossier médical
+        consultationService.supprimerConsultation(consultation);
+
+        model.addAttribute("successMessage", "Consultation supprimée avec succès !");
+        return "redirect:/patients/" + dossierMedical.getPatient().getId_Patient();
+
+    }
+
+    @ModelAttribute("enumValues")
+    public GroupeSanguin[] getEnumValues() {
+        return GroupeSanguin.values();
+    }
+
+    @ModelAttribute("mutuelleValues")
+    public Mutuelle[] getMutuelleValues() {
+        return Mutuelle.values();
+    }
 }

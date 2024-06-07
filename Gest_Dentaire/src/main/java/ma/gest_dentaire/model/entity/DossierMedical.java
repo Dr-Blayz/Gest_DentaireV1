@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
@@ -25,9 +26,30 @@ public class DossierMedical {
 
     private String situationFinanciere;
 
+    @OneToMany(mappedBy = "dossierMedical", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Consultation> consultations;
+
     public DossierMedical(LocalDate dateCreation, Patient patient, String situationFinanciere) {
         this.dateCreation = dateCreation;
         this.patient = patient;
         this.situationFinanciere = situationFinanciere;
+    }
+
+    public DossierMedical(LocalDate dateCreation, Patient patient, String situationFinanciere, List<Consultation> consultations) {
+        this.dateCreation = dateCreation;
+        this.patient = patient;
+        this.situationFinanciere = situationFinanciere;
+        this.consultations = consultations;
+    }
+
+
+    @Override
+    public String toString() {
+        return "DossierMedical{" +
+                "idDossier=" + idDossier +
+                ", dateCreation=" + dateCreation +
+                ", patient=" + patient +
+                ", situationFinanciere='" + situationFinanciere + '\'' +
+                '}';
     }
 }

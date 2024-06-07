@@ -15,6 +15,7 @@
     <div class="modifier-patient w-1/2 p-6 ">
         <h2 class="text-lg font-semibold">Modifier Informations du Patient</h2>
         <form th:action="@{'/patients/' + ${patient.id_Patient} + '/update'}" method="post" class="mt-4">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <!-- Champs pour modifier les informations du patient -->
             <div class="mb-4">
                 <label for="CinPatient" class="block text-sm font-medium text-gray-900">CIN:</label>
@@ -58,16 +59,27 @@
                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
             </div>
 
-            <div class="mb-4">
-                <label for="mutuelle" class="block text-sm font-medium text-gray-900">Mutuelle:</label>
-                <input type="text" id="mutuelle" name="mutuelle" th:value="${patient.mutuelle}" required
-                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+
+            <div>
+                <label for="mutuelle" class="block text-sm font-medium leading-6 text-gray-900">Mutuelle:</label>
+                <select id="mutuelle" name="mutuelle" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-lg">
+                    <option th:value="${patient.mutuelle}"></option>
+                    <option th:each="mutuelle : ${mutuelleValues}"
+                            th:value="${mutuelle.name()}" th:text="${mutuelle.name()}"
+                            th:selected="${mutuelle == patient.mutuelle}">>
+                    </option>
+                </select>
             </div>
 
             <div class="mb-4">
-                <label for="groupeSanguin" class="block text-sm font-medium text-gray-900">Groupe Sanguin:</label>
-                <input type="text" id="groupeSanguin" name="groupeSanguin" th:value="${patient.groupeSanguin}" required
-                       class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-500 rounded-lg">
+                <label for="groupeSanguin" class="block text-sm font-medium leading-6 text-gray-900">Groupe Sanguin:</label>
+                <select id="groupeSanguin" name="groupeSanguin"  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-lg">
+                    <option th:value="${patient.groupeSanguin}"></option>
+                    <option th:each="groupeSanguin : ${enumValues}"
+                            th:value="${groupeSanguin.name()}" th:text="${groupeSanguin.name()}"
+                            th:selected="${groupeSanguin == patient.groupeSanguin}">
+                    </option>
+                </select>
             </div>
 
             <div class="mb-4">
@@ -120,6 +132,6 @@
         </div>
 </div>
 </div>
+</div>
 </body>
-
 </html>

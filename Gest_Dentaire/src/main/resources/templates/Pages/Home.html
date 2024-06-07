@@ -7,24 +7,42 @@
 
 </head>
 <body>
-<div class="flex ">
+<div class="flex">
     <div th:insert="Composant/sidebare :: aside"></div>
 
-    <div class="flex-1 p-2">
+    <div class="flex-1 m-5">
         <header th:insert="Composant/header.html :: header"></header>
-        <h1>Bienvenue Chez Teeth-tech</h1>
-        <h1>Bienvenue Chez Teeth-tech</h1>
-        <h1>Bienvenue Chez Teeth-tech</h1>
-        <h1>Bienvenue Chez Teeth-tech</h1>
-        <h1>Bienvenue Chez Teeth-tech</h1>
-        <h1>Bienvenue Chez Teeth-tech</h1>
-        <h1>Bienvenue Chez Teeth-tech</h1>
-        <h1>Bienvenue Chez Teeth-tech</h1>
-        <h1>Bienvenue Chez Teeth-tech</h1>
+<div class="text-center">
+    <h1 class="m-6 text-green-500 text-5xl font-bold  ">Bienvenue Chez Teeth-tech</h1>
 
+</div>
+        <div class="flex justify-between p-9 mt-9 mx-6">
+            <!-- Carte pour le nombre total de patients -->
+            <div class="bg-gray-200 p-4 rounded-lg">
+                <h2 class="text-black font-bold mb-2">Nombre total de patients</h2>
+                <p class="text-center text-green-800 font-bold text-xl"><span th:text="${totalPatients}"></span></p>
+            </div>
 
+            <!-- Carte pour le total des consultations ce mois-ci -->
+            <div class="bg-gray-200 p-4 rounded-lg">
+                <h2 class="text-black font-bold mb-2">Total des consultations ce mois-ci</h2>
+                <p class="text-center text-green-800 font-bold text-xl"><span th:text="${totalConsultationsThisMonth}"></span></p>
+            </div>
 
+            <!-- Carte pour le total des dossiers médicaux avec la situation "Payé" -->
+            <div class="bg-gray-200 p-4 rounded-lg">
+                <h2 class="text-black font-bold mb-2">Total des dossiers médicaux avec la situation "Payé"</h2>
+                <p class="text-center text-green-800 font-bold text-xl"><span th:text="${totalDossiersPayes}"></span></p>
+            </div>
 
+        </div>
+
+        <div class="flex justify-between p-9 mt-9 mx-6">
+        <div class="bg-gray-200 p-4 rounded-lg mt-4">
+            <h2 class="text-black font-bold mb-2">Revenu du mois</h2>
+            <p class="text-center text-green-800 font-bold text-xl"><span th:text="${totalRevenue}"></span> DH</p>
+        </div>
+        </div>
 
     </div>
 </div>

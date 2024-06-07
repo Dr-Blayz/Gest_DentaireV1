@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Liste des Patients</title>
+    <title>Liste des Employés</title>
 </head>
 <body>
 
@@ -16,8 +16,8 @@
     <div class="flex-1 p-2">
         <header th:insert="Composant/header.html :: header"></header>
         <div class="flex items-center justify-between">
-            <h1 class="text-black-900 font-black text-3xl py-6 px-4">Liste des Patients</h1>
-            <a th:href="@{/patients/add}"><button  class="px-4 py-2 mr-6 bg-[#68d391] text-white font-semibold rounded hover:bg-[#056829]">Ajouter patient</button></a>
+            <h1 class="text-black-900 font-black text-3xl py-6 px-4">Liste des Employés</h1>
+            <a th:href="@{/employers/add}"><button  class="px-4 py-2 mr-6 bg-[#68d391] text-white font-semibold rounded hover:bg-[#056829]">Ajouter employé</button></a>
         </div>
         <div class="flex flex-col">
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -30,27 +30,32 @@
                                 <th scope="col" class="px-6 py-4">CIN</th>
                                 <th scope="col" class="px-6 py-4">Nom</th>
                                 <th scope="col" class="px-6 py-4">Prénom</th>
-                                <th scope="col" class="px-6 py-4">adresse</th>
+                                <th scope="col" class="px-6 py-4">Fonction</th>
+                                <th scope="col" class="px-6 py-4">Statut</th>
+                                <th scope="col" class="px-6 py-4 text-center">Action</th>
+
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="patient : ${patients}" class="border-b border-neutral-200 dark:border-Black/10" >
-                                <td class="whitespace-nowrap px-6 py-4" th:text="${patient.cin_Patient}"></td>
-                                <td class="whitespace-nowrap px-6 py-4" th:text="${patient.nom_Patient}"></td>
-                                <td class="whitespace-nowrap px-6 py-4" th:text="${patient.prenom_Patient}"></td>
-                                <td class="whitespace-nowrap px-6 py-4" th:text="${patient.adresse_Patient}"></td>
+                            <tr th:each="employer : ${employers}" class="border-b border-neutral-200 dark:border-Black/10" >
+                                <td class="whitespace-nowrap px-6 py-4" th:text="${employer.Cin_Employer}"></td>
+                                <td class="whitespace-nowrap px-6 py-4" th:text="${employer.nom_Employer}"></td>
+                                <td class="whitespace-nowrap px-6 py-4" th:text="${employer.prenom_Employer}"></td>
+                                <td class="whitespace-nowrap px-6 py-4" th:text="${employer.fonction}"></td>
+                                <td class="whitespace-nowrap px-6 py-4" th:text="${employer.statuts}"></td>
 
-                                <td class="whitespace-nowrap px-1 py-4"><a th:href="@{'/patients/' + ${patient.id_Patient}}"
-                                      class="inline-block rounded bg-[#68d391] px-6 pb-2 pt-2.5 text-xs font-medium
+                                <td class="whitespace-nowrap px-1 py-4 text-center"><a
+                                        th:href="@{'/employers/' + ${employer.id_Employer}}"
+                                                                           class="inline-block rounded bg-[#68d391] px-6 pb-2 pt-2.5 text-xs font-medium
                                       uppercase leading-normal text-neutral-50 shadow-dark-3 transition duration-150
                                       ease-in-out hover:bg-[#056829] hover:shadow-dark-2 focus:bg-neutral-700 focus:shadow-dark-2
                                       focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-dark-2 motion-reduce:transition-none
                                       dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">
-                                    Infos</a></td>
-                                <td class="whitespace-nowrap px-1 py-4">
-                                    <a  th:href="@{'/patients/' + ${patient.id_Patient} + '/delete'}"
+                                    Infos</a>
+
+                                    <a th:href="@{'/employers/' + ${employer.id_Employer} + '/delete'}"
                                         class="inline-block rounded bg-red-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-dark-3 transition duration-150 ease-in-out hover:bg-red-900 hover:shadow-dark-2 focus:bg-neutral-700 focus:shadow-dark-2 focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-dark-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
-                                       onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette consultation ?');">
+                                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet employé ?');">
                                         Supprimer
                                     </a>
                                 </td>
