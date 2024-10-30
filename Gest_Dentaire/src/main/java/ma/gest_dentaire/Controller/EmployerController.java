@@ -1,4 +1,4 @@
-package ma.gest_dentaire.controller;
+package ma.gest_dentaire.Controller;
 
 import ma.gest_dentaire.model.entity.Employer;
 import ma.gest_dentaire.model.enumclass.*;

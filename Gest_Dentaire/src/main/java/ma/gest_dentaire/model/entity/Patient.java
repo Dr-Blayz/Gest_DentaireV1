@@ -76,4 +76,6 @@ public class Patient {
                 ", id_Patient=" + id_Patient +
                 '}';
     }
+
+
 }
